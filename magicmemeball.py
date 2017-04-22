@@ -1,26 +1,43 @@
 import kivy
-kivy.require('1.9.1')
-
 from kivy.app import App
 from kivy.uix.button import Label
 from kivy.uix.boxlayout import BoxLayout
+from kivy.core.window import Window
+from kivy.uix.button import Button
+from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.lang import Builder
+from kivy.uix.widget import Widget
+kivy.require('1.9.1')
 
-class Controller(BoxLayout):
-	def __init__(self):
-		super(Controller, self).__init__()
+Builder.load_string("""
+<StartLayout>:
+    orientation: 'vertical'
 
-	def buttonClick(self):
-		self.lbl.text = "Congratulations!"
+    BoxLayout:
+    	center: 0.5, 0.5
+    	size: self.parent.size
+		pos: self.parent.pos
 
-class ActionApp(App):
+	    Button:
+	        text: 'Click to find your spirit meme!'
+	        Image:
+	            source: 'images/magic8ball.png'
+	            size_hint: 0.5, 0.5
+	            anchor_x: 'center'
+	            anchor_y: 'center'
+	            size: 300, 300
+	            allow_stretch: True
+	            keep_ratio: True
+""")
+
+class ActionApp(App, BoxLayout):
 	def build(self):
-		return Controller();
+		Window.clearcolor = (1,1,1,1)
+		return StartLayout()
 
-class MagicMemeBall(App):
-
-    def build(self):
-        return Label(text = "Welcome to Magic Meme Ball! Click start to "
-        	+ "to become dank.")
+class StartLayout(BoxLayout):
+	def build(self):
+		return self
 
 magicMemeBall = ActionApp()
 magicMemeBall.run()
